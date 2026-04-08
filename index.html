@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Glowing Universe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="dynamic-gradient"></div>
+    <div id="cursor-glow"></div>
+
+    <div class="stars-layer stars-layer-1" data-parallax="0.2"></div>
+    <div class="stars-layer stars-layer-2" data-parallax="0.6"></div>
+    <div class="stars-layer stars-layer-3" data-parallax="1.0"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+             <span class="highlight">Tanmay Rastogi</span>.
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <!-- <li><a href="#">Skills</a></li> -->
+            <!-- <li><a href="#">Projects</a></li> -->
+            <li><a href="#">Tasks </a></li>
+            <li><a href="#">About me</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <a href="#" class="btn btn-outline">LinkedIn</a>
+            <a href="#" class="btn btn-filled">Github</a>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <div class="content">
+            <h1>Welcome</h1>
+            <p>Feel free to explore my projects!</p>
+        </div>
+
+        <div class="inline-dropdown-container">
+            <select id="page-selector" class="sleek-select">
+                <option value="" disabled selected>Select task...</option>
+                <option value="dashboard.html">Dashboard</option>
+                <option value="retaurant_menu.html">Restaurant Menu</option>
+                <option value="leaderboard.html">Leaderboard</option>
+                <option value="#skills">Login page</option>
+                <option value="#projects">Sign in page</option>
+            </select>
+            <button id="go-button" class="sleek-btn">➔</button>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

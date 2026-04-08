@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalogue</title>
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- 1. The Flowing Wave Background --- */
+        #dynamic-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            background: linear-gradient(-45deg, #0C0420, #034d3b);
+            background-size: 400% 400%;
+            animation: gradientWave 10s ease infinite; 
+        }
+
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. Main Container & Content Styling --- */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px; 
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.25); 
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            max-width: 1200px; /* Made wider for product descriptions */
+            width: 95%;
+            margin: 40px 0; 
+        }
+
+        .content {
+            text-align: center;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-top: 0;
+        }
+
+        .logo .highlight {
+            color: #0e9f7b; 
+            font-weight: 600;
+        }
+
+        /* --- 3. Table Styling --- */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center; 
+        }
+
+        th {
+            background-color: rgba(14, 159, 123, 0.2);
+            color: #0e9f7b;
+            padding: 18px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: middle;
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Row hover effect */
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Specific Column Highlighting */
+        td:nth-child(2) {
+            font-weight: 600;
+            color: #ffffff; /* Product Name */
+            font-size: 1.2rem;
+            min-width: 150px;
+        }
+        
+        td:nth-child(3) {
+            color: #0e9f7b; /* Price */
+            font-weight: bold;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            min-width: 100px;
+        }
+
+        td:nth-child(4) {
+            color: #c0c0c0; /* Description */
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: left; /* Much better for long text */
+            max-width: 500px;
+        }
+
+        /* Image styling */
+        td img.product-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 15px; /* Soft square corners for products */
+            object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        tr:hover td img.product-img {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(14, 159, 123, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="dynamic-gradient"></div>
+
+    <main class="main-container">
+        <div class="content">
+            <h1 class="logo">Product <span class="highlight">Catalogue</span></h1>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <tr>
+                    <th>Product</th>
+                    <th>Name</th>
+                    <th>Price (₹)</th>
+                    <th>Description</th>
+                </tr>
+
+                <tr>
+                    <td><img src="im/nike.jpg" class="product-img" alt="Nike Jordan Shoes"></td>
+                    <td>Nike Jordan Shoes</td>
+                    <td>15,999</td>
+                    <td>Punctuate your rotation with the ultimate symbol of urban luxury. This Jordan model strips away the noise to focus on clean lines, premium leather textures, and a monochromatic palette that demands attention without saying a word. Whether paired with oversized tailoring or classic fleece, its architectural shape and 'Jumpman' DNA offer a polished finish to any high-contrast look.</td>
+                </tr>
+
+                <tr>
+                    <td><img src="im/prada.jpg" class="product-img" alt="Prada Sunglasses"></td>
+                    <td>Prada Sunglasses</td>
+                    <td>7,000</td>
+                    <td>Prada sunglasses are crafted from the highest quality materials, ensuring both durability and comfort. Whether you choose frames made from lightweight acetate, sleek metal, or innovative titanium, each pair is designed to stand the test of time.</td>
+                </tr>
+
+                <tr>
+                    <td><img src="im/armani.jpg" class="product-img" alt="Armani Exchange Belt"></td>
+                    <td>Armani Exchange Belt</td>
+                    <td>9,000</td>
+                    <td>Defined by a streamlined silhouette and a focus on essential form, this Armani Exchange belt is the ultimate finishing touch for the modern minimalist. Featuring a low-profile buckle and a smooth, matte leather finish, it offers a clean aesthetic that transitions effortlessly from day to night. It’s not just an accessory—it’s the anchor of a sharp, well-curated wardrobe.</td>
+                </tr>
+
+                <tr>
+                    <td><img src="im/gucci.jpg" class="product-img" alt="Gucci Wallet"></td>
+                    <td>Gucci Wallet</td>
+                    <td>5,000</td>
+                    <td>Small Leather Goods House codes and distinctive Gucci symbols characterize men's wallets, card cases, and money clips crafted in GG Supreme canvas and leather.</td>
+                </tr>
+
+            </table>
+        </div>
+    </main>
+</body>
+</html>

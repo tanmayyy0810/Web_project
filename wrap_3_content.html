@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html >
+<head> 
+    <title>Flexbox Layout</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: peachpuff;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto; 
+            display: flex;
+            gap: 20px; 
+        }
+        .box {
+            background-color: white;
+            padding: 20px;
+            flex: 1; 
+            text-align: center;
+            border-radius: 8px;   
+        }
+        .box img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .box h3 {
+            margin: 15px 0 10px;
+        }
+        .box p {
+            font-size: 14px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <img src="im/gucci.jpg" >
+            <h3>Gucci Wallet</h3>
+            <p>Small Leather Goods House codes and distinctive Gucci symbols characterize men's wallets, card cases, and money clips crafted in GG Supreme canvas and leather.</p>
+        </div>
+
+        <div class="box">
+            <img src="im/prada.jpg" >
+            <h3>Prada Sunglasses</h3>
+            <p>Prada sunglasses are crafted from the highest quality materials, ensuring both durability and comfort. Whether you choose frames made from lightweight acetate, sleek metal, or innovative titanium, each pair is designed to stand the test of time.</p>
+        </div>
+
+        <div class="box">
+            <img src="im/armani.jpg">
+            <h3>Armani Belt</h3>
+            <p>Defined by a streamlined silhouette and a focus on essential form, this Armani Exchange belt is the ultimate finishing touch for the modern minimalist. Featuring a low-profile buckle and a smooth, matte leather finish, it offers a clean aesthetic that transitions effortlessly from day to night. It’s not just an accessory—it’s the anchor of a sharp, well-curated wardrobe.</p>
+        </div>
+    </div>
+</body>
+</html>

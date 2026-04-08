@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profiles</title>
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- 1. The Flowing Wave Background --- */
+        #dynamic-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            background: linear-gradient(-45deg, #0C0420, #034d3b);
+            background-size: 400% 400%;
+            animation: gradientWave 10s ease infinite; 
+        }
+
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. Main Container & Content Styling --- */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px; 
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.25); 
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            max-width: 1000px;
+            width: 95%;
+            margin: 40px 0; 
+        }
+
+        .content {
+            text-align: center;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-top: 0;
+        }
+
+        .logo .highlight {
+            color: #0e9f7b; 
+            font-weight: 600;
+        }
+
+        /* --- 3. Table Styling --- */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center; 
+        }
+
+        th {
+            background-color: rgba(14, 159, 123, 0.2);
+            color: #0e9f7b;
+            padding: 18px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: middle;
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Row hover effect */
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Highlighting specific text columns */
+        td:nth-child(2) {
+            font-weight: 600;
+            color: #ffffff; /* Name */
+        }
+        
+        td:nth-child(3) {
+            color: #0e9f7b; /* Registration No. */
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        td:nth-child(5) {
+            color: #a0a0a0; /* Email */
+            font-size: 0.95rem;
+        }
+
+        /* Image/Avatar styling */
+        td img.avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%; /* Perfect circle */
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(14, 159, 123, 0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        tr:hover td img.avatar {
+            transform: scale(1.1);
+            border-color: rgba(14, 159, 123, 1);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="dynamic-gradient"></div>
+
+    <main class="main-container">
+        <div class="content">
+            <h1 class="logo">Student <span class="highlight">Profiles</span></h1>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Registration No.</th>
+                    <th>Department</th>
+                    <th>Email</th>
+                </tr>
+
+                <tr>
+                    <td><img src="im/no-image.jpg" class="avatar" alt="Tanmay Rastogi"></td>
+                    <td>Tanmay Rastogi</td>
+                    <td>24BCE2994</td>
+                    <td>Computer Science</td>
+                    <td>tanmayrastogi08@gmail.com</td>
+                </tr>
+
+                <tr>
+                    <td><img src="im/no-image.jpg" class="avatar" alt="Ananjan Joshi"></td>
+                    <td>Ananjan Joshi</td>
+                    <td>25BEC0275</td>
+                    <td>Electronics and Communication</td>
+                    <td>ananjan@gmail.com</td>
+                </tr>
+
+                <tr>
+                    <td><img src="im/no-image.jpg" class="avatar" alt="Anant Garg"></td>
+                    <td>Ashita Gupta</td>
+                    <td>24BME0869</td>
+                    <td>Mechatronics</td>
+                    <td>ashitagupta@gmail.com</td>
+                </tr>
+
+            </table>
+        </div>
+    </main>
+</body>
+</html>

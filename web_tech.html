@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Technologies Course Outline</title>
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- 1. The Flowing Wave Background --- */
+        #dynamic-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            background: linear-gradient(-45deg, #0C0420, #034d3b);
+            background-size: 400% 400%;
+            animation: gradientWave 10s ease infinite; 
+        }
+
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. Main Container & Content Styling --- */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px; 
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.25); 
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            max-width: 900px;
+            width: 90%;
+            margin: 40px 0; 
+        }
+
+        .content {
+            text-align: center;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-top: 0;
+        }
+
+        .logo .highlight {
+            color: #0e9f7b; 
+            font-weight: 600;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+            font-weight: 200;
+            margin: 0;
+            color: #a0a0a0;
+        }
+
+        /* --- 3. Grid & Cards --- */
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .menu-section {
+            background-color: rgba(255, 255, 255, 0.08); 
+            padding: 30px;
+            border-radius: 15px;
+            flex: 1;
+            min-width: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .menu-section:hover {
+            transform: translateY(-8px);
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .menu-section h2 {
+            color: #0e9f7b;
+            font-size: 1.6rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* --- 4. List Styling (ol, ul, dl) --- */
+        .menu-section ul, 
+        .menu-section ol {
+            padding-left: 25px;
+            margin: 0;
+        }
+
+        .menu-section ol > li {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .menu-section ul > li {
+            color: #c0c0c0;
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 5px;
+            list-style-type: circle;
+        }
+
+        /* Description List Formatting */
+        .menu-section dl {
+            margin: 0;
+        }
+
+        .menu-section dt {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .menu-section dd {
+            color: #c0c0c0;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-left: 0;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 2px solid #0e9f7b; /* Adds a nice accent line */
+        }
+    </style>
+</head>
+<body>
+    <div id="dynamic-gradient"></div>
+
+    <main class="main-container">
+        <div class="content">
+            <h1 class="logo">Course <span class="highlight">Outline</span></h1>
+            <p>Web Technologies Overview & Definitions</p>
+        </div>
+
+        <div class="menu-container">
+            
+            <div class="menu-section">
+                <h2>Modules</h2>
+                <ol>
+                    <li>HTML
+                        <ul>
+                            <li>Elements</li>
+                            <li>Attributes</li>
+                            <li>Lists</li>
+                            <li>Tables</li>
+                        </ul>
+                    </li>
+                    <li>CSS</li>
+                    <li>Bootstrap</li>
+                    <li>JavaScript</li>
+                    <li>PHP</li>
+                </ol>
+            </div>
+
+            <div class="menu-section">
+                <h2>List Types</h2>
+                <dl>
+                    <dt>Ordered List</dt>
+                    <dd>An ordered list displays items in a specific sequence using numbers or letters.</dd>
+                    
+                    <dt>Unordered List</dt>
+                    <dd>An unordered list displays items in a specific sequence using bullet points.</dd>
+                    
+                    <dt>Description List</dt>
+                    <dd>A description list is used to define terms along with their definitions.</dd>
+                </dl>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Leaderboard</title>
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- 1. The Flowing Wave Background --- */
+        #dynamic-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            background: linear-gradient(-45deg, #0C0420, #034d3b);
+            background-size: 400% 400%;
+            animation: gradientWave 10s ease infinite; 
+        }
+
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. Main Container & Content Styling --- */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px; 
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.25); 
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            max-width: 1000px;
+            width: 95%;
+            margin: 40px 0; 
+        }
+
+        .content {
+            text-align: center;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-top: 0;
+        }
+
+        .logo .highlight {
+            color: #0e9f7b; 
+            font-weight: 600;
+        }
+
+        /* --- 3. Table Styling --- */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center; /* Centered for a leaderboard feel */
+        }
+
+        th {
+            background-color: rgba(14, 159, 123, 0.2);
+            color: #0e9f7b;
+            padding: 18px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: middle;
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Highlighting Rank and Score */
+        td:nth-child(1) {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        
+        td:nth-child(4) {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #0e9f7b;
+        }
+
+        /* Image styling inside the table */
+        td img {
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        td img.avatar {
+            border-radius: 50%; /* Makes student photos perfectly circular */
+            border: 2px solid rgba(14, 159, 123, 0.5);
+        }
+
+        td img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Styling the Subjects sub-row as modern badges */
+        td ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        td ul li {
+            background: rgba(255, 255, 255, 0.08);
+            color: #c0c0c0;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.5px;
+        }
+
+        /* Remove border between the main row and its subject row to group them visually */
+        .sub-row td {
+            border-bottom: 2px solid rgba(14, 159, 123, 0.2);
+            padding-top: 5px;
+            padding-bottom: 20px;
+        }
+        .main-row td {
+            border-bottom: none;
+        }
+
+        /* Row hover effect */
+        .main-row:hover td, .sub-row:hover td {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+    </style>
+</head>
+<body>
+    <div id="dynamic-gradient"></div>
+
+    <main class="main-container">
+        <div class="content">
+            <h1 class="logo">Student <span class="highlight">Leaderboard</span></h1>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <tr>
+                    <th>Rank</th>
+                    <th>Medal</th>
+                    <th>Student Name</th>
+                    <th>Score</th>
+                    <th>Photo</th>
+                </tr>
+
+                <tr class="main-row">
+                    <td>1<sup>st</sup></td>
+                    <td><img src="im/gold.png" width="60" height="60" alt="Gold Medal"></td>
+                    <td>Tanmay Rastogi</td>
+                    <td>98</td>
+                    <td><img src="im/no-image.jpg" width="70" height="70" class="avatar" alt="Tanmay Rastogi"></td>
+                </tr>
+                <tr class="sub-row">
+                    <td colspan="5">
+                        <ul>
+                            <li>Mathematics</li>
+                            <li>Physics</li>
+                            <li>Computer Science</li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr class="main-row">
+                    <td>2<sup>nd</sup></td>
+                    <td><img src="im/silver.jpg" width="60" height="60" alt="Silver Medal"></td>
+                    <td>Anant Garg</td>
+                    <td>94</td>
+                    <td><img src="im/no-image.jpg" width="70" height="70" class="avatar" alt="Anant Garg"></td>
+                </tr>
+                <tr class="sub-row">
+                    <td colspan="5">
+                        <ul>
+                            <li>Chemistry</li>
+                            <li>Computer Science</li>
+                            <li>Physics</li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr class="main-row">
+                    <td>3<sup>rd</sup></td>
+                    <td><img src="im/brown.jpg" width="60" height="60" alt="Bronze Medal"></td>
+                    <td>Ananjan Joshi</td>
+                    <td>93</td>
+                    <td><img src="im/no-image.jpg" width="70" height="70" class="avatar" alt="Ananjan Joshi"></td>
+                </tr>
+                <tr class="sub-row">
+                    <td colspan="5">
+                        <ul>
+                            <li>Electronics</li>
+                            <li>Physics</li>
+                            <li>Mathematics</li>
+                        </ul>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </main>
+</body>
+</html>

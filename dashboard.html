@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Dashboard</title>
+
+    <style>
+        table {
+            width: 100%;
+            background-color: lightskyblue;
+
+        }
+        td {
+            padding: 15px;
+            text-align: center;
+        }
+        td a {
+            color: black;
+            font-weight: bold;
+        }
+        td:hover {
+            background-color:peru;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: peachpuff;
+            padding: 10px;
+            height: 100vh;
+            float: left;
+        }
+        .sidebar ul {
+            list-style-type: initial;
+        }
+        .sidebar li {
+            padding: 10px;
+            background-color:linen;
+            margin-bottom: 5px;
+        }
+        .sidebar li:hover {
+            background-color: grey;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table>
+        <tr>
+            <td><a href="">Home</a></td>
+            <td><a href="">Reports</a></td>
+            <td><a href="">Settings</a></td>
+            <td><a href="">Logout</a></td>
+        </tr>
+    </table>
+
+    <div class="sidebar">
+        <ul>
+            <li>Overview</li>
+            <li>Sales</li>
+            <li>Users</li>
+            <li>Support</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>VITTY </h1>
+        <p>Welcome to VIT's official students page, where students can interact with faculties and can ask doubts if they have any.<br> <br>Marks,Grades and CGPA are also displayed here. </p>
+    </div>
+
+</body>
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Dashboard with Parallax Stars</title>
+
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            /* Removed flex centering so the dashboard layout works properly */
+        }
+
+        /* --- Dashboard Styles --- */
+        .dashboard-wrapper {
+            position: relative;
+            z-index: 10; /* Keeps dashboard on top of the background */
+            width: 100%;
+            height: 100%;
+        }
+        table {
+            width: 100%;
+            background-color: #024f2f;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 15px;
+            text-align: center;
+        }
+        td a {
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        td:hover {
+            background-color: peru;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: rgb(91, 36, 59);
+            padding: 10px;
+            height: calc(100vh - 50px); /* Adjusts for the top navbar */
+            float: left;
+            color: black; /* Added to keep text readable against light background */
+        }
+        .sidebar ul {
+            list-style-type: initial;
+            padding-left: 20px;
+        }
+        .sidebar li {
+            padding: 10px;
+            background-color: linen;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .sidebar li:hover {
+            background-color: grey;
+            color: white;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+
+        /* --- 1. The Flowing Wave Background --- */
+        #dynamic-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            background: linear-gradient(
+                -45deg, 
+                #0C0420, 
+                #034d3b
+            );
+            background-size: 400% 400%;
+            animation: gradientWave 10s ease infinite; 
+        }
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. The Glowing Cursor Hover Effect --- */
+        #cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; 
+            pointer-events: none; 
+            mix-blend-mode: screen; 
+        }
+
+        /* --- 3. Parallax Stars Layers --- */
+        .stars-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3; 
+            will-change: transform; 
+        }
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.6);
+            animation: twinkle 3s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="dynamic-gradient"></div>
+    <div id="cursor-glow"></div>
+    
+    <div class="stars-layer" data-parallax="0.2"></div>
+    <div class="stars-layer" data-parallax="0.5"></div>
+    <div class="stars-layer" data-parallax="0.8"></div>
+
+    <div class="dashboard-wrapper">
+        <table>
+            <tr>
+                <td><a href="">Home</a></td>
+                <td><a href="">Reports</a></td>
+                <td><a href="">Settings</a></td>
+                <td><a href="">Logout</a></td>
+            </tr>
+        </table>
+
+        <div class="sidebar">
+            <ul>
+                <li>Overview</li>
+                <li>Sales</li>
+                <li>Users</li>
+                <li>Support</li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <h1>VITTY</h1>
+            <p>Welcome to VIT's official students page, where students can interact with faculties and can ask doubts if they have any.<br> <br>Marks, Grades and CGPA are also displayed here.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Function to dynamically create stars (added to prevent errors)
+            function generateStars() {
+                const layers = document.querySelectorAll('.stars-layer');
+                layers.forEach((layer, index) => {
+                    // Create more stars for deeper layers to create a 3D effect
+                    const numStars = (index + 1) * 30; 
+                    
+                    for (let i = 0; i < numStars; i++) {
+                        const star = document.createElement('div');
+                        star.classList.add('star');
+                        
+                        // Random position
+                        star.style.left = `${Math.random() * 100}vw`;
+                        star.style.top = `${Math.random() * 100}vh`;
+                        
+                        // Random size (smaller for background layers, bigger for foreground)
+                        const size = Math.random() * 3 + (index * 0.5);
+                        star.style.width = `${size}px`;
+                        star.style.height = `${size}px`;
+                        
+                        // Random twinkle offset
+                        star.style.animationDelay = `${Math.random() * 3}s`;
+                        
+                        layer.appendChild(star);
+                    }
+                });
+            }
+
+            // 1. Generate Stars
+            generateStars();
+
+            // 2. Add Mousemove Listener for Cursor Glow & Parallax
+            const cursorGlow = document.getElementById('cursor-glow');
+            const starLayers = document.querySelectorAll('.stars-layer');
+
+            window.addEventListener('mousemove', (e) => {
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+
+                const moveX = (mouseX / window.innerWidth) - 0.5;
+                const moveY = (mouseY / window.innerHeight) - 0.5;
+
+                // Cursor Glow effect
+                cursorGlow.style.background = `radial-gradient(
+                    circle 100px at ${mouseX}px ${mouseY}px, 
+                     rgba(68, 66, 66, 0.25) 2%, 
+                    rgba(75, 73, 74, 0.15) 20%, 
+                    transparent 90%
+                )`;
+
+                // Parallax Star Movement
+                starLayers.forEach(layer => {
+                    const strength = parseFloat(layer.getAttribute('data-parallax'));
+                    const translateX = moveX * strength * 50; 
+                    const translateY = moveY * strength * 50;
+                    layer.style.transform = `translate(${translateX}px, ${translateY}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html> -->
