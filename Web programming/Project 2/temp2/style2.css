@@ -1,0 +1,78 @@
+/* Page background and font */
+body {
+    font-family: Arial, sans-serif;
+    background-color: lightskyblue;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page heading */
+.page-title {
+    margin-top: 20px;
+    color: #333;
+}
+.product-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;        /* space between cards */
+    margin-top: 30px;
+}
+
+/* Product card design */
+.product-card {
+    background-color: whitesmoke;
+    width: 400px;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Product image */
+.product-image {
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Product name */
+.product-name {
+    color: #222;
+    margin: 10px 0;
+}
+
+/* Price styling */
+.product-price {
+    color: #27ae60;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Description text */
+.product-description {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Rating stars */
+.rating {
+    font-size: 18px;
+    color: lightgoldenrodyellow;
+    margin: 10px 0;
+}
+
+/* Add to Cart button */
+.add-to-cart {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Hover effect on button */
+.add-to-cart:hover {
+    background-color: #2980b9;
+}
