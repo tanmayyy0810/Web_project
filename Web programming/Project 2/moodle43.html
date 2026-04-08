@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Caption Overlay</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .image-container {
+            position: relative;
+            width: 400px;
+        }
+        .image-container img {
+            width: 100%;
+            display: block;
+            position: relative;
+            z-index: 1; 
+            border-radius: 8px;
+        }
+        .caption {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 12px;
+            color: white;
+            background: rgba(0, 0, 0, 0.6); 
+            z-index: 2; 
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div class="image-container">
+    <img src="D:\xamppppp\htdocs\Web programming\project 2\im\gucci.jpg" alt="gucci">
+    <div class="caption">
+        Beautiful Gucci purse
+    </div>
+</div>
+</body>
+</html>

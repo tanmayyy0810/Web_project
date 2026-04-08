@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Dashboard</title>
+
+    <style>
+        table {
+            width: 100%;
+            background-color: #562563;
+            
+        }
+        td {
+            padding: 15px;
+            text-align: center;
+        }
+        td a {
+            color: black;
+            font-weight: bold;
+        }
+        td:hover {
+            background-color:peru;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: peachpuff;
+            padding: 10px;
+            height: 100vh;
+            float: left;
+        }
+        .sidebar ul {
+            list-style-type: initial;
+        }
+        .sidebar li {
+            padding: 10px;
+            background-color:linen;
+            margin-bottom: 5px;
+        }
+        .sidebar li:hover {
+            background-color: grey;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table>
+        <tr>
+            <td><a href="">Home</a></td>
+            <td><a href="">Reports</a></td>
+            <td><a href="">Settings</a></td>
+            <td><a href="">Logout</a></td>
+        </tr>
+    </table>
+
+    <div class="sidebar">
+        <ul>
+            <li>Overview</li>
+            <li>Sales</li>
+            <li>Users</li>
+            <li>Support</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>VITTY </h1>
+        <p>Welcome to VIT's official students page, where students can interact with faculties and can ask doubts if they have any.<br> <br>Marks,Grades and CGPA are also displayed here. </p>
+    </div>
+
+</body>
+</html>
+

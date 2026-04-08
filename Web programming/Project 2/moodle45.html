@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Gallery z-index</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .gallery {
+            position: relative;
+            width: 300px;
+            height: 200px;
+        }
+        .gallery img {
+            position: absolute;
+            width: 200px;
+            height: 150px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        .img1 {
+            left: 0;
+            top: 0;
+            z-index: 1;
+        }
+
+        .img2 {
+            left: 40px;
+            top: 30px;
+            z-index: 2;
+        }
+
+        .img3 {
+            left: 80px;
+            top: 60px;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+<div class="gallery">
+    <img src="D:\xamppppp\htdocs\Web programming\project 2\im\gucci.jpg"
+         class="img1" data-original="1">
+
+    <img src="D:\xamppppp\htdocs\Web programming\project 2\im\nike.jpg"
+         class="img2" data-original="2">
+
+    <img src="D:\xamppppp\htdocs\Web programming\project 2\im\headphoneesss.webp"
+         class="img3" data-original="3">
+</div>
+<script>
+    const images = document.querySelectorAll("img");
+    images.forEach(img => {
+        img.addEventListener("click", function() {
+
+            images.forEach(image => {
+                image.style.zIndex = image.dataset.original;
+            });
+            this.style.zIndex = "10";
+        });
+    });
+</script>
+
+</body>
+</html>

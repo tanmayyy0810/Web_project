@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Highlight Paragraphs</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .highlight {
+            background: lightblue;
+            padding: 10px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $("p").addClass("highlight");
+            $("p").click(function() {
+                $(this).toggleClass("highlight");
+            });
+        });
+    </script>
+</head>
+<body>
+    <p>This is the first paragraph.</p>
+    <p>This is the second paragraph.</p>
+</body>
+</html>

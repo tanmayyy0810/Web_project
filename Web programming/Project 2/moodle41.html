@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Form Validation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-box {
+            background: white;
+            padding: 25px;
+            width: 320px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        input.valid {
+            border-color: green;
+        }
+
+        input.invalid {
+            border-color: red;
+        }
+
+        .icon {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+            font-size: 16px;
+        }
+
+        .error {
+            font-size: 13px;
+            color: red;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="form-box">
+    <h3>Register</h3>
+
+    <form id="registerForm">
+
+        <!-- Email -->
+        <div class="input-group">
+            <input type="text" id="email" placeholder="Enter Email">
+            <span id="emailIcon" class="icon"></span>
+            <div id="emailError" class="error"></div>
+        </div>
+
+        <!-- Password -->
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Enter Password">
+            <div id="passwordError" class="error"></div>
+        </div>
+
+        <button type="submit">Submit</button>
+
+    </form>
+</div>
+
+<script>
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const emailIcon = document.getElementById("emailIcon");
+    const form = document.getElementById("registerForm");
+
+    let emailValid = false;
+    let passwordValid = false;
+
+    // Email Validation (Live)
+    email.addEventListener("input", function() {
+        const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+        if (emailPattern.test(email.value.trim())) {
+            email.classList.add("valid");
+            email.classList.remove("invalid");
+            emailIcon.textContent = "✔";
+            emailIcon.style.color = "green";
+            emailError.textContent = "";
+            emailValid = true;
+        } else {
+            email.classList.add("invalid");
+            email.classList.remove("valid");
+            emailIcon.textContent = "✖";
+            emailIcon.style.color = "red";
+            emailError.textContent = "Enter a valid email address.";
+            emailValid = false;
+        }
+    });
+
+    // Password Validation (Live)
+    password.addEventListener("input", function() {
+        const value = password.value;
+
+        const lengthCheck = value.length >= 8;
+        const upperCheck = /[A-Z]/.test(value);
+        const numberCheck = /[0-9]/.test(value);
+
+        if (lengthCheck && upperCheck && numberCheck) {
+            password.classList.add("valid");
+            password.classList.remove("invalid");
+            passwordError.style.color = "green";
+            passwordError.textContent = "Strong password ✔";
+            passwordValid = true;
+        } else {
+            password.classList.add("invalid");
+            password.classList.remove("valid");
+            passwordError.style.color = "red";
+            passwordError.textContent = 
+                "Password must be 8+ chars, include 1 uppercase & 1 number.";
+            passwordValid = false;
+        }
+    });
+
+    // Prevent submission if invalid
+    form.addEventListener("submit", function(e) {
+        if (!emailValid || !passwordValid) {
+            e.preventDefault();
+            alert("Please fix errors before submitting.");
+        }
+    });
+</script>
+
+</body>
+</html>

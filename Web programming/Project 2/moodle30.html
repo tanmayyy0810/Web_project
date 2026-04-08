@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+<input type="number" id="price">
+<input type="number" id="quantity">
+<button onclick="calculateTotal()">Calculate</button>
+<p id="result"></p>
+<script>
+function calculateTotal(){
+document.getElementById("result").innerText =
+document.getElementById("price").value * document.getElementById("quantity").value
+}
+</script>
+</body>
+</html>

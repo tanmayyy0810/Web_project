@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout Form</title>
+</head>
+<body>
+<h2>Online Shopping Checkout</h2>
+<form id="checkoutForm" onsubmit="return validateCheckout()">
+    Full Name: <br>
+    <input type="text" id="fullname"><br><br>
+    Phone Number: <br>
+    <input type="text" id="phone"><br><br>
+    Delivery Address: <br>
+    <textarea id="address"></textarea><br><br>
+    ZIP / Postal Code: <br>
+    <input type="text" id="zip"><br><br>
+    Payment Option: <br>
+    <input type="radio" name="payment" value="Credit Card"> Credit Card
+    <input type="radio" name="payment" value="Debit Card"> Debit Card
+    <input type="radio" name="payment" value="UPI"> UPI
+    <br><br>
+    <input type="submit" value="Place Order">
+</form>
+<script>
+function validateCheckout() {
+    let fullname = document.getElementById("fullname").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let address = document.getElementById("address").value.trim();
+    let zip = document.getElementById("zip").value.trim();
+    let paymentOptions = document.getElementsByName("payment");
+    if (fullname === "" || phone === "" || address === "" || zip === "") {
+        alert("All fields are required.");
+        return false;
+    }
+    let phonePattern = /^[0-9]{10}$/;
+    if (!phonePattern.test(phone)) {
+        alert("Phone number must contain exactly 10 digits.");
+        return false;
+    }
+    let zipPattern = /^[0-9]{5,6}$/;
+    if (!zipPattern.test(zip)) {
+        alert("ZIP/Postal code must be 5 or 6 digits.");
+        return false;
+    }
+    let paymentSelected = false;
+    for (let i = 0; i < paymentOptions.length; i++) {
+        if (paymentOptions[i].checked) {
+            paymentSelected = true;
+            break;
+        }
+    }
+    if (!paymentSelected) {
+        alert("Please select a payment option.");
+        return false;
+    }
+    alert("Order placed successfully!");
+    return true; // Allow form submission
+}
+</script>
+</body>
+</html>

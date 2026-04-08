@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Card Tooltip Demo</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 60px;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        /* Product Card */
+        .card {
+            position: relative;
+            width: 220px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 10; /* Base card level */
+            display: inline-block;
+            margin-right: -80px; /* Force overlapping */
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 6px;
+        }
+
+        .card h4 {
+            margin: 10px 0 5px;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            top: 30px;
+            left: 230px;
+            background: black;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 160px;
+            display: none;
+            z-index: 20; /* Default tooltip level */
+        }
+    </style>
+</head>
+<body>
+
+<h2>Overlapping Product Cards (z-index Demo)</h2>
+
+<div class="container">
+
+    <!-- Card 1 -->
+    <div class="card">
+        <img src="D:\xamppppp\htdocs\Web programming\project 2\im\armani.jpg" alt="Belt">
+        <h4>Belt</h4>
+        <div class="tooltip">
+            Price: ₹2,999 <br>
+            leather
+        </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+        <img src="D:\xamppppp\htdocs\Web programming\project 2\im\gucci.jpg" alt="Wallet">
+        <h4>wallet</h4>
+        <div class="tooltip">
+            Price: ₹4,499 <br>
+            leather 
+        </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+        <img src="D:\xamppppp\htdocs\Web programming\project 2\im\headphoneesss.webp" alt="Headphones">
+        <h4>headphone</h4>
+        <div class="tooltip">
+            Price: ₹1,999 <br>
+            Bluetooth 5.0
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+        const tooltip = card.querySelector(".tooltip");
+
+        card.addEventListener("mouseenter", function() {
+            tooltip.style.display = "block";
+            tooltip.style.zIndex = "999"; // Bring tooltip above overlapping cards
+        });
+
+        card.addEventListener("mouseleave", function() {
+            tooltip.style.display = "none";
+            tooltip.style.zIndex = "20"; // Reset to default
+        });
+    });
+</script>
+
+</body>
+</html>

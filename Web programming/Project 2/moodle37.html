@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Booking Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            width: 450px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004d99;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Hotel Booking Form</h2>
+
+    <form id="bookingForm">
+
+        <!-- Guest Name -->
+        <label>Guest Name</label>
+        <input type="text" id="guestName">
+        <div class="error" id="nameError"></div>
+
+        <!-- Contact Number -->
+        <label>Contact Number</label>
+        <input type="tel" id="contactNumber">
+        <div class="error" id="contactError"></div>
+
+        <!-- Room Type -->
+        <label>Room Type</label><br>
+        <input type="radio" name="roomType" value="Standard"> Standard
+        <input type="radio" name="roomType" value="Deluxe"> Deluxe
+        <input type="radio" name="roomType" value="Suite"> Suite
+        <div class="error" id="roomError"></div>
+
+        <br>
+
+        <!-- Additional Services -->
+        <label>Additional Services</label><br>
+        <input type="checkbox" name="service" value="Breakfast"> Breakfast
+        <input type="checkbox" name="service" value="Airport Pickup"> Airport Pickup
+        <input type="checkbox" name="service" value="WiFi"> Wi-Fi
+        <div class="error" id="serviceError"></div>
+
+        <br>
+
+        <!-- Terms & Conditions -->
+        <input type="checkbox" id="terms">
+        I agree to the Terms and Conditions
+        <div class="error" id="termsError"></div>
+
+        <br><br>
+
+        <button type="submit">Book Now</button>
+
+    </form>
+</div>
+
+<script>
+document.getElementById("bookingForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let name = document.getElementById("guestName").value.trim();
+    let contact = document.getElementById("contactNumber").value.trim();
+    let roomType = document.querySelector('input[name="roomType"]:checked');
+    let services = document.querySelectorAll('input[name="service"]:checked');
+    let terms = document.getElementById("terms").checked;
+
+    let isValid = true;
+
+    // Clear previous errors
+    document.getElementById("nameError").innerText = "";
+    document.getElementById("contactError").innerText = "";
+    document.getElementById("roomError").innerText = "";
+    document.getElementById("serviceError").innerText = "";
+    document.getElementById("termsError").innerText = "";
+
+    // Name validation
+    if (name === "") {
+        document.getElementById("nameError").innerText = "Guest name is required";
+        isValid = false;
+    }
+
+    // Contact validation
+    if (contact === "") {
+        document.getElementById("contactError").innerText = "Contact number is required";
+        isValid = false;
+    }
+
+    // Room type validation
+    if (!roomType) {
+        document.getElementById("roomError").innerText = "Please select a room type";
+        isValid = false;
+    }
+
+    // Additional services validation
+    if (services.length === 0) {
+        document.getElementById("serviceError").innerText = "Select at least one additional service";
+        isValid = false;
+    }
+
+    // Terms validation
+    if (!terms) {
+        document.getElementById("termsError").innerText = "You must agree to the terms and conditions";
+        isValid = false;
+    }
+
+    // If all validations pass
+    if (isValid) {
+        alert("Booking Successful!");
+        document.getElementById("bookingForm").reset();
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fading Image Gallery</title>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        #mainImage {
+            width: 400px;
+            height: 450px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .thumbnail {
+            width: 120px;
+            height: 150px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+
+            $(".thumbnail").click(function() {
+
+                var newImage = $(this).attr("src");
+
+                // Fade out current image
+                $("#mainImage").fadeOut(600, function() {
+
+                    // Change image source after fade out
+                    $(this).attr("src", newImage);
+
+                    // Fade in new image
+                    $(this).fadeIn(1000);
+                });
+
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+
+    <h2>Simple Fading Gallery</h2>
+
+    <!-- Main Image -->
+    <img id="mainImage" src="D:\xamppppp\htdocs\Web programming\project 2\im\tikka.jpg">
+
+    <br>
+
+    <!-- Thumbnails -->
+    <img class="thumbnail" src="D:\xamppppp\htdocs\Web programming\project 2\im\tikka.jpg">
+    <img class="thumbnail" src="D:\xamppppp\htdocs\Web programming\project 2\im\pav.jpg">
+    <img class="thumbnail" src="D:\xamppppp\htdocs\Web programming\project 2\im\chhole.jpg">
+
+</body>
+</html>

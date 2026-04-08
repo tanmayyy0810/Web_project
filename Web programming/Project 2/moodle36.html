@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Examination Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 450px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004d99;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Exam Registration Form</h2>
+
+    <form id="examForm">
+
+        <!-- Name -->
+        <label>Student Name</label>
+        <input type="text" id="name">
+        <div class="error" id="nameError"></div>
+
+        <!-- Email -->
+        <label>Email</label>
+        <input type="email" id="email">
+        <div class="error" id="emailError"></div>
+
+        <!-- Gender -->
+        <label>Gender</label><br>
+        <input type="radio" name="gender" value="Male"> Male
+        <input type="radio" name="gender" value="Female"> Female
+        <input type="radio" name="gender" value="Other"> Other
+        <div class="error" id="genderError"></div>
+
+        <br>
+
+        <!-- Subjects -->
+        <label>Subjects Interested</label><br>
+        <input type="checkbox" name="subject" value="Math"> Math
+        <input type="checkbox" name="subject" value="Science"> Science
+        <input type="checkbox" name="subject" value="English"> English
+        <input type="checkbox" name="subject" value="Computer"> Computer
+        <div class="error" id="subjectError"></div>
+
+        <br>
+
+        <!-- Declaration -->
+        <input type="checkbox" id="declaration">
+        I declare that the above information is correct.
+        <div class="error" id="declarationError"></div>
+
+        <br><br>
+
+        <button type="submit">Submit</button>
+
+    </form>
+</div>
+
+<script>
+document.getElementById("examForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let gender = document.querySelector('input[name="gender"]:checked');
+    let subjects = document.querySelectorAll('input[name="subject"]:checked');
+    let declaration = document.getElementById("declaration").checked;
+
+    let isValid = true;
+
+    // Clear previous errors
+    document.getElementById("nameError").innerText = "";
+    document.getElementById("emailError").innerText = "";
+    document.getElementById("genderError").innerText = "";
+    document.getElementById("subjectError").innerText = "";
+    document.getElementById("declarationError").innerText = "";
+
+    // Name validation
+    if (name === "") {
+        document.getElementById("nameError").innerText = "Name is required";
+        isValid = false;
+    }
+
+    // Email validation
+    if (email === "") {
+        document.getElementById("emailError").innerText = "Email is required";
+        isValid = false;
+    }
+
+    // Gender validation
+    if (!gender) {
+        document.getElementById("genderError").innerText = "Please select a gender";
+        isValid = false;
+    }
+
+    // Subject validation
+    if (subjects.length === 0) {
+        document.getElementById("subjectError").innerText = "Select at least one subject";
+        isValid = false;
+    }
+
+    // Declaration validation
+    if (!declaration) {
+        document.getElementById("declarationError").innerText = "You must accept the declaration";
+        isValid = false;
+    }
+
+    // If all validations pass
+    if (isValid) {
+        alert("Registration Successful!");
+        document.getElementById("examForm").reset();
+    }
+});
+</script>
+
+</body>
+</html>

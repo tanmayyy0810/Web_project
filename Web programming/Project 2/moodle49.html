@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>jQuery Task List</title>
+    
+    <style>
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        li {
+            cursor: pointer;
+            margin-bottom: 5px;
+            font-family: sans-serif;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+    <ul id="task-list">
+        <li>Task 1</li>
+        <li>Task 2</li>
+        <li>Task 3</li>
+    </ul>
+
+    <button id="add-task-btn">Add Task</button>
+
+    <script>
+        $(document).ready(function() {
+            $('#add-task-btn').on('click', function() {
+                $('#task-list').append('<li>New Task</li>');
+                $('#task-list li:first').text('Updated');
+            });
+            $('#task-list').on('click', 'li', function() {
+                $(this).toggleClass('completed');
+            });
+
+        });
+    </script>
+</body>
+</html>
+

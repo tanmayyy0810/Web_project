@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Tooltip</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .product-container {
+            position: relative;
+        }
+
+        img {
+            width: 250px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+        }
+
+        #tooltip {
+            position: fixed;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            pointer-events: none; 
+            display: none;
+            max-width: 200px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="product-container">
+    <img id="productImage" 
+         src="D:\xamppppp\htdocs\Web programming\project 2\im\headphoneesss.webp" 
+         alt="Headphones">
+</div>
+
+<div id="tooltip">
+    <strong>Wireless Headphones</strong><br>
+    Price: ₹2,999<br>
+    Noise cancellation<br>
+    20 hours battery life
+</div>
+
+<script>
+    const image = document.getElementById("productImage");
+    const tooltip = document.getElementById("tooltip");
+
+    // Show tooltip
+    image.addEventListener("mouseover", function() {
+        tooltip.style.display = "block";
+    });
+
+    // Hide tooltip
+    image.addEventListener("mouseout", function() {
+        tooltip.style.display = "none";
+    });
+
+    // Move tooltip with cursor
+    image.addEventListener("mousemove", function(event) {
+        tooltip.style.left = (event.clientX + 15) + "px";
+        tooltip.style.top = (event.clientY + 15) + "px";
+    });
+</script>
+
+</body>
+</html>

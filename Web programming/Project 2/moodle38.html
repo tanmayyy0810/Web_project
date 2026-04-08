@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-box {
+            background: white;
+            padding: 20px;
+            width: 300px;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0,123,255,0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-box">
+    <h3>Registration Form</h3>
+
+    <input type="text" id="username" placeholder="Username">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="validateForm()">Submit</button>
+
+    <p id="message" class="error"></p>
+</div>
+
+<script>
+function validateForm() {
+
+    let username = document.getElementById("username");
+    let email = document.getElementById("email");
+    let password = document.getElementById("password");
+    let message = document.getElementById("message");
+
+    message.textContent = "";
+    if (username.value.trim() === "") {
+        message.textContent = "Username is required.";
+        username.focus();
+        return;
+    }
+
+    if (email.value.trim() === "") {
+        message.textContent = "Email is required.";
+        email.focus();
+        return;
+    }
+
+    if (password.value.trim() === "") {
+        message.textContent = "Password is required.";
+        password.focus();
+        return;
+    }
+
+    message.style.color = "green";
+    message.textContent = "Registration Successful!";
+}
+</script>
+
+</body>
+</html>
