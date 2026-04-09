@@ -1,60 +1,256 @@
 <!DOCTYPE html>
-<html >
+<html lang="en">
 <head> 
-    <title>Flexbox Layout</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Flexbox Layout</title>
     <style>
+        /* --- Base Setup --- */
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: peachpuff;
-        }
-        .container {
-            width: 80%;
-            margin: 50px auto; 
+            min-height: 100vh; /* Changed from fixed height to min-height for scrolling */
+            overflow-x: hidden; 
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
             display: flex;
-            gap: 20px; 
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
-        .box {
-            background-color: white;
-            padding: 20px;
-            flex: 1; 
+
+        /* --- 1. The Flowing Wave Background --- */
+        #dynamic-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            background: linear-gradient(
+                -45deg, 
+                #0C0420, 
+                #034d3b
+            );
+            background-size: 400% 400%;
+            animation: gradientWave 10s ease infinite; 
+        }
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. The Glowing Cursor Hover Effect --- */
+        #cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; 
+            pointer-events: none; 
+            mix-blend-mode: screen; 
+        }
+
+        /* --- 3. Parallax Stars Layers --- */
+        .stars-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3; 
+            will-change: transform; 
+        }
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.6);
+            animation: twinkle 3s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* --- 4. Main Container & Product Flexbox --- */
+        .main-container {
+            position: relative;
+            z-index: 10; /* Ensures it sits above the animated background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px; 
+            padding: 100px 20px 40px; /* Padding for navbar and scrolling */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .content {
             text-align: center;
-            border-radius: 8px;   
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            pointer-events: none; 
         }
+
+        .content h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+            font-weight: 200;
+            margin: 0;
+        }
+
+        /* --- Flexbox Layout for Products (Updated for Dark Theme) --- */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            display: flex;
+            gap: 30px; 
+            justify-content: center;
+            flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+        }
+
+        .box {
+            /* Glassmorphism styling to match theme */
+            background-color: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            flex: 1; 
+            min-width: 250px; /* Prevents boxes from getting too narrow */
+            text-align: center;
+            border-radius: 16px; 
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
         .box img {
             width: 100%;
             height: auto;
-            border-radius: 5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Adds depth to images */
         }
+
         .box h3 {
-            margin: 15px 0 10px;
+            margin: 20px 0 10px;
+            font-weight: 500;
+            letter-spacing: 1px;
         }
+
         .box p {
             font-size: 14px;
-            color: black;
+            color: #d1d1d1; /* Soft gray for readability on dark background */
+            line-height: 1.6;
+        }
+
+        /* --- 5. Header / Navbar Styling --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%; 
+            box-sizing: border-box;
+            z-index: 100; 
+            background: rgba(0, 0, 0, 0.15); 
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .logo .highlight {
+            color: #0e9f7b; 
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: #a0a0a0; 
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover, 
+        .nav-links a.active {
+            color: #ffffff;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="box">
-            <img src="im/gucci.jpg" >
-            <h3>Gucci Wallet</h3>
-            <p>Small Leather Goods House codes and distinctive Gucci symbols characterize men's wallets, card cases, and money clips crafted in GG Supreme canvas and leather.</p>
+
+    <div id="dynamic-gradient"></div>
+    <div id="cursor-glow"></div>
+    <div class="stars-layer">
         </div>
 
-        <div class="box">
-            <img src="im/prada.jpg" >
-            <h3>Prada Sunglasses</h3>
-            <p>Prada sunglasses are crafted from the highest quality materials, ensuring both durability and comfort. Whether you choose frames made from lightweight acetate, sleek metal, or innovative titanium, each pair is designed to stand the test of time.</p>
+    <nav class="navbar">
+        <div class="logo">LUXE<span class="highlight">STYLE</span></div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">Collections</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-container">
+        
+        <div class="content">
+            <h1>Featured Accessories</h1>
+            <p>Discover our exclusive premium collection.</p>
         </div>
 
-        <div class="box">
-            <img src="im/armani.jpg">
-            <h3>Armani Belt</h3>
-            <p>Defined by a streamlined silhouette and a focus on essential form, this Armani Exchange belt is the ultimate finishing touch for the modern minimalist. Featuring a low-profile buckle and a smooth, matte leather finish, it offers a clean aesthetic that transitions effortlessly from day to night. It’s not just an accessory—it’s the anchor of a sharp, well-curated wardrobe.</p>
+        <div class="container">
+            <div class="box">
+                <img src="im/gucci.jpg" alt="Gucci Wallet">
+                <h3>Gucci Wallet</h3>
+                <p>Small Leather Goods House codes and distinctive Gucci symbols characterize men's wallets, card cases, and money clips crafted in GG Supreme canvas and leather.</p>
+            </div>
+
+            <div class="box">
+                <img src="im/prada.jpg" alt="Prada Sunglasses">
+                <h3>Prada Sunglasses</h3>
+                <p>Prada sunglasses are crafted from the highest quality materials, ensuring both durability and comfort. Each pair is designed to stand the test of time.</p>
+            </div>
+
+            <div class="box">
+                <img src="im/armani.jpg" alt="Armani Belt">
+                <h3>Armani Belt</h3>
+                <p>Defined by a streamlined silhouette and a focus on essential form, this Armani Exchange belt is the ultimate finishing touch for the modern minimalist.</p>
+            </div>
         </div>
+        
     </div>
+
 </body>
 </html>
