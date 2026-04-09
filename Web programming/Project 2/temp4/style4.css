@@ -1,0 +1,85 @@
+/* Page background with gradient */
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right,violet, blueviolet);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Login card */
+.login-card {
+    background-color: white;
+    width: 320px;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+/* Heading */
+.login-card h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Labels */
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* Input fields */
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+}
+
+/* Glow effect on focus */
+input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 6px rgba(102,126,234,0.8);
+}
+
+/* Forgot password link */
+.forgot-link {
+    display: block;
+    text-align: right;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #667eea;
+    text-decoration: none;
+}
+
+/* Hover on link */
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* Login button */
+button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #667eea;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #5a67d8;
+}
