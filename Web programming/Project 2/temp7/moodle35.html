@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VTOP Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .login-container {
+            width: 350px;
+            margin: 100px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004d99;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+    <h2>VTOP Login</h2>
+
+    <form id="loginForm">
+
+        <label>Username</label>
+        <input type="text" id="username">
+        <div class="error" id="usernameError"></div>
+
+        <label>Password</label>
+        <input type="password" id="password">
+        <div class="error" id="passwordError"></div>
+
+        <label>User Type</label>
+        <select id="userType">
+            <option value="">Select User Type</option>
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+            <option value="admin">Admin</option>
+        </select>
+        <div class="error" id="userTypeError"></div>
+        <button type="submit">Login</button>
+    </form>
+</div>
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    let username = document.getElementById("username").value.trim();
+    let password = document.getElementById("password").value.trim();
+    let userType = document.getElementById("userType").value;
+    let isValid = true;
+    document.getElementById("usernameError").innerText = "";
+    document.getElementById("passwordError").innerText = "";
+    document.getElementById("userTypeError").innerText = "";
+    if (username === "") {
+        document.getElementById("usernameError").innerText = "Username is required";
+        isValid = false;
+    }
+    if (password === "") {
+        document.getElementById("passwordError").innerText = "Password is required";
+        isValid = false;
+    } 
+    else if (password.length < 8) {
+        document.getElementById("passwordError").innerText = "Password must be at least 8 characters long";
+        isValid = false;
+    }
+    if (userType === "") {
+        document.getElementById("userTypeError").innerText = "Please select user type";
+        isValid = false;
+    }
+    if (isValid) {
+        localStorage.setItem("loggedInUser", username);
+        window.location.href = "dashboard.html";
+    }
+});
+</script>
+</body>
+</html>
