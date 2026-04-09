@@ -84,6 +84,9 @@ body {
     text-align: center;
     text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     pointer-events: none; 
+    max-width: 900px; /* Prevents the text from stretching too wide */
+    margin: 0 auto; /* Centers the content block horizontally */
+    padding: 0 20px; /* Ensures a small margin on mobile screens */
 }
 
 .content h1 {
