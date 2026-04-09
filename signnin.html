@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Sign In</title>
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. The Flowing Wave Background --- */
+        #dynamic-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            background: linear-gradient(
+                -45deg, 
+                #0C0420, 
+                #034d3b
+            );
+            background-size: 400% 400%;
+            animation: gradientWave 10s ease infinite; 
+        }
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. Parallax Stars --- */
+        .stars-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; 
+        }
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.6);
+            animation: twinkle 3s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* --- 3. Forms Layout Wrapper --- */
+        .forms-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+        }
+
+        /* --- 4. Glassmorphism Form Container --- */
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 420px; /* Slightly wider for a standalone form */
+            border-radius: 16px; 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Form Header --- */
+        .form-header {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+        .form-header h2 {
+            margin: 0;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-size: 2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .form-header p {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            margin: 10px 0 0 0;
+        }
+
+        .form-body {
+            padding: 20px 30px 35px;
+        }
+
+        /* --- Form Inputs --- */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: #d1d1d1;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], 
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 15px;
+            background-color: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            color: white;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]::placeholder, 
+        input[type="password"]::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        input[type="text"]:focus, 
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #0e9f7b;
+            background-color: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 10px rgba(14, 159, 123, 0.3);
+        }
+
+        /* --- Helper Links & Inline Groups --- */
+        .form-helpers {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.85rem;
+        }
+
+        .inline-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #d1d1d1;
+        }
+
+        .inline-group input[type="checkbox"] {
+            accent-color: #0e9f7b;
+            cursor: pointer;
+        }
+
+        .text-link {
+            color: #0e9f7b;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .text-link:hover {
+            color: #17d1a3;
+            text-decoration: underline;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-theme {
+            background-color: #0e9f7b;
+            color: white;
+            box-shadow: 0 4px 15px rgba(14, 159, 123, 0.3);
+        }
+
+        .btn-theme:hover {
+            background-color: #085e37;
+            box-shadow: 0 6px 20px rgba(14, 159, 123, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* --- Footer --- */
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #a0a0a0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="dynamic-gradient"></div>
+    <div class="stars-layer"></div>
+
+    <div class="forms-wrapper">
+        
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Welcome Back</h2>
+                <p>Please sign in to your account</p>
+            </div>
+            
+            <div class="form-body">
+                <form>
+                    <div class="input-group">
+                        <label>Username or Email</label>
+                        <input type="text" placeholder="Enter your username" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="form-helpers">
+                        <div class="inline-group">
+                            <input type="checkbox" id="remember">
+                            <label for="remember" style="margin:0; cursor:pointer;">Remember me</label>
+                        </div>
+                        <a href="#" class="text-link">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-theme">Sign In</button>
+                </form>
+
+                <div class="form-footer">
+                    Don't have an account? <a href="#" class="text-link">Sign up</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Login & Register</title>
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. The Flowing Wave Background --- */
+        #dynamic-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            background: linear-gradient(
+                -45deg, 
+                #0C0420, 
+                #034d3b
+            );
+            background-size: 400% 400%;
+            animation: gradientWave 10s ease infinite; 
+        }
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. Parallax Stars --- */
+        .stars-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; 
+        }
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.6);
+            animation: twinkle 3s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* --- 3. Forms Layout Wrapper --- */
+        .forms-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            padding: 50px 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* --- 4. Glassmorphism Form Containers --- */
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 16px; 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Form Headers --- */
+        .form-header {
+            text-align: center;
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.15);
+        }
+        .form-header h2 {
+            margin: 0;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-size: 1.8rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .form-body {
+            padding: 30px;
+        }
+
+        /* --- Form Inputs --- */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: #d1d1d1;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], 
+        input[type="email"], 
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 15px;
+            background-color: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            color: white;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]::placeholder, 
+        input[type="email"]::placeholder, 
+        input[type="password"]::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        input[type="text"]:focus, 
+        input[type="email"]:focus, 
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #0e9f7b;
+            background-color: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 10px rgba(14, 159, 123, 0.3);
+        }
+
+        /* --- Checkboxes & Radios --- */
+        .inline-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #d1d1d1;
+            margin-bottom: 25px;
+        }
+
+        .radio-options {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+            color: #d1d1d1;
+            font-size: 0.9rem;
+        }
+
+        .radio-options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            margin: 0;
+            color: inherit;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-theme {
+            background-color: #0e9f7b;
+            color: white;
+            box-shadow: 0 4px 15px rgba(14, 159, 123, 0.3);
+        }
+
+        .btn-theme:hover {
+            background-color: #085e37;
+            box-shadow: 0 6px 20px rgba(14, 159, 123, 0.5);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="dynamic-gradient"></div>
+    <div class="stars-layer"></div>
+
+    <div class="forms-wrapper">
+        
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Login</h2>
+            </div>
+            <div class="form-body">
+                <form>
+                    <div class="input-group">
+                        <label>Username</label>
+                        <input type="text" placeholder="Enter Username" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Enter Password" required>
+                    </div>
+                    <div class="inline-group">
+                        <input type="checkbox" id="remember">
+                        <label for="remember" style="margin:0;">Remember me</label>
+                    </div>
+                    <button type="submit" class="btn btn-theme">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Register</h2>
+            </div>
+            <div class="form-body">
+                <form>
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="Full Name" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="tanmay@example.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Create Password" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Confirm Password</label>
+                        <input type="password" placeholder="Confirm Password" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Gender</label>
+                        <div class="radio-options">
+                            <label><input type="radio" name="gender" required> Male</label>
+                            <label><input type="radio" name="gender"> Female</label>
+                            <label><input type="radio" name="gender"> Other</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-theme">Register</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
