@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Welcome
+Message</title>
+
+</head>
+<body>
+ <h1>Enter Your Name</h1>
+ <input type="text" id="name" placeholder="Your Name">
+ <button onclick="displayGreeting()">Submit</button>
+ <div id="msg"></div>
+ <script>
+ function displayGreeting() {
+ const userName = document.getElementById('name').value;
+
+ const greetingDiv = document.getElementById('msg');
+ greetingDiv.innerHTML="Hello " +userName +", Welcome!";
+
+ }
+ </script>
+</body>
+</html>
