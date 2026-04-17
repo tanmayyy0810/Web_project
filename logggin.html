@@ -27,11 +27,7 @@
             width: 100%;
             height: 100%;
             z-index: 1; 
-            background: linear-gradient(
-                -45deg, 
-                #0C0420, 
-                #034d3b
-            );
+            background: linear-gradient(-45deg, #0C0420, #034d3b);
             background-size: 400% 400%;
             animation: gradientWave 10s ease infinite; 
         }
@@ -75,6 +71,38 @@
             max-width: 1000px;
         }
 
+        /* --- Progress Bar --- */
+        .instruction-bar {
+            width: 100%;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+        }
+        .instruction-bar p {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            color: #0e9f7b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #0e9f7b;
+            transition: width 0.5s ease;
+        }
+
         /* --- 4. Glassmorphism Form Containers --- */
         .form-container {
             background-color: rgba(255, 255, 255, 0.08); 
@@ -112,7 +140,6 @@
         .input-group {
             margin-bottom: 20px;
         }
-
         .input-group label {
             display: block;
             margin-bottom: 8px;
@@ -121,7 +148,6 @@
             color: #d1d1d1;
             letter-spacing: 0.5px;
         }
-
         input[type="text"], 
         input[type="email"], 
         input[type="password"] {
@@ -136,13 +162,11 @@
             font-family: inherit;
             transition: all 0.3s ease;
         }
-
         input[type="text"]::placeholder, 
         input[type="email"]::placeholder, 
         input[type="password"]::placeholder {
             color: rgba(255, 255, 255, 0.4);
         }
-
         input[type="text"]:focus, 
         input[type="email"]:focus, 
         input[type="password"]:focus {
@@ -161,7 +185,6 @@
             color: #d1d1d1;
             margin-bottom: 25px;
         }
-
         .radio-options {
             display: flex;
             gap: 20px;
@@ -169,7 +192,6 @@
             color: #d1d1d1;
             font-size: 0.9rem;
         }
-
         .radio-options label {
             display: flex;
             align-items: center;
@@ -192,13 +214,11 @@
             transition: all 0.3s ease;
             font-family: inherit;
         }
-
         .btn-theme {
             background-color: #0e9f7b;
             color: white;
             box-shadow: 0 4px 15px rgba(14, 159, 123, 0.3);
         }
-
         .btn-theme:hover {
             background-color: #085e37;
             box-shadow: 0 6px 20px rgba(14, 159, 123, 0.5);
@@ -213,12 +233,19 @@
 
     <div class="forms-wrapper">
         
+        <div class="instruction-bar">
+            <p id="status-text">Please fill out <strong>both</strong> the Login and Register forms to continue.</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="completion-progress"></div>
+            </div>
+        </div>
+
         <div class="form-container">
             <div class="form-header">
                 <h2>Login</h2>
             </div>
             <div class="form-body">
-                <form>
+                <form id="login-form">
                     <div class="input-group">
                         <label>Username</label>
                         <input type="text" placeholder="Enter Username" required>
@@ -241,7 +268,7 @@
                 <h2>Register</h2>
             </div>
             <div class="form-body">
-                <form>
+                <form id="register-form">
                     <div class="input-group">
                         <label>Full Name</label>
                         <input type="text" placeholder="Full Name" required>
@@ -272,6 +299,98 @@
         </div>
 
     </div>
+
+    <script>
+        // State tracking
+        let isLoginDone = false;
+        let isRegisterDone = false;
+
+        const progressBar = document.getElementById('completion-progress');
+        const statusText = document.getElementById('status-text');
+
+        function updateProgress() {
+            let completion = 0;
+            if (isLoginDone) completion += 50;
+            if (isRegisterDone) completion += 50;
+
+            progressBar.style.width = completion + "%";
+
+            if (completion === 100) {
+                statusText.innerHTML = "✨ All set! Redirecting to the next part...";
+                statusText.style.color = "#ffffff";
+                
+                setTimeout(() => {
+                    alert("Both forms verified! Proceeding to the dashboard...");
+                    // This is where the magic happens:
+                    window.location.href = "index.html"; 
+                }, 800);
+            } else if (completion === 50) {
+                statusText.innerHTML = "Halfway there! Now fill the <strong>other</strong> form.";
+            }
+        }
+
+        // --- Login Form Logic ---
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Only validate if it hasn't been completed yet
+            if (isLoginDone) {
+                alert("You've already completed the Login form!");
+                return;
+            }
+
+            const user = loginForm.querySelector('input[type="text"]').value;
+            const pass = loginForm.querySelector('input[type="password"]').value;
+
+            if (user.length >= 3 && pass.length >= 7) {
+                isLoginDone = true;
+                alert("✅ Login form validated!");
+                
+                // Visual feedback: disable button
+                const btn = loginForm.querySelector('button');
+                btn.style.backgroundColor = "#555";
+                btn.innerText = "Completed";
+                btn.disabled = true;
+
+                updateProgress();
+            } else {
+                alert("❌ Please enter a valid username and password (at least 3 characters for username and 7 for password).");
+            }
+        });
+
+        // --- Register Form Logic ---
+        const registerForm = document.getElementById('register-form');
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Only validate if it hasn't been completed yet
+            if (isRegisterDone) {
+                alert("You've already completed the Register form!");
+                return;
+            }
+
+            const pass = registerForm.querySelector('input[placeholder="Create Password"]').value;
+            const confirmPass = registerForm.querySelector('input[placeholder="Confirm Password"]').value;
+
+            if (pass !== confirmPass) {
+                alert("❌ Registration failed: Passwords do not match.");
+            } else if (pass.length < 6) {
+                alert("❌ Registration failed: Password must be at least 6 characters.");
+            } else {
+                isRegisterDone = true;
+                alert("✅ Registration form validated!");
+                
+                // Visual feedback: disable button
+                const btn = registerForm.querySelector('button');
+                btn.style.backgroundColor = "#555";
+                btn.innerText = "Completed";
+                btn.disabled = true;
+
+                updateProgress();
+            }
+        });
+    </script>
 
 </body>
 </html>
