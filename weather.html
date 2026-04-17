@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Glass Weather Dashboard</title>
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* --- Flowing Wave Background --- */
+        #dynamic-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            background: linear-gradient(-45deg, #0C0420, #034d3b);
+            background-size: 400% 400%;
+            animation: gradientWave 10s ease infinite; 
+        }
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- Parallax Stars --- */
+        .stars-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; 
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.6);
+            animation: twinkle 3s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* --- Glass Dashboard Wrapper --- */
+        .glass-card {
+            position: relative;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 20px; 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            transition: box-shadow 0.8s ease, border-color 0.8s ease;
+        }
+
+        .glass-card h2 {
+            margin: 0;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-size: 2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        /* --- Search Area --- */
+        .search-container {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+        }
+        
+        input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            color: white;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            border-color: #0e9f7b;
+            box-shadow: 0 0 10px rgba(14, 159, 123, 0.3);
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #0e9f7b;
+            color: white;
+            box-shadow: 0 4px 15px rgba(14, 159, 123, 0.3);
+        }
+        button:hover {
+            background-color: #085e37;
+            transform: translateY(-2px);
+        }
+
+        /* --- Weather Display Area --- */
+        .weather-info {
+            display: none; /* Hidden until data is fetched */
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .city-name {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin: 10px 0 5px 0;
+            letter-spacing: 1px;
+        }
+
+        .temperature {
+            font-size: 4rem;
+            font-weight: 600;
+            margin: 10px 0;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .weather-desc {
+            font-size: 1.2rem;
+            text-transform: capitalize;
+            color: #d1d1d1;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .weather-icon {
+            font-size: 2rem;
+        }
+
+        .extra-stats {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-sizing: border-box;
+        }
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #a0a0a0;
+        }
+        .stat span {
+            font-size: 1.1rem;
+            color: white;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* System Messages */
+        .message {
+            color: #ff4757;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .loading {
+            color: #0e9f7b;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="dynamic-gradient"></div>
+    <div class="stars-layer" id="stars-container"></div>
+
+    <div class="glass-card" id="weather-card">
+        <h2>Atmos Tracker</h2>
+        
+        <div class="search-container">
+            <input type="text" id="city-input" placeholder="Enter city (e.g., Tokyo, Paris)">
+            <button id="search-btn">Fetch</button>
+        </div>
+
+        <div id="system-msg" class="message"></div>
+
+        <div class="weather-info" id="weather-info">
+            <div class="city-name" id="display-city">--</div>
+            <div class="temperature"><span id="temp-val">--</span>°</div>
+            <div class="weather-desc">
+                <span class="weather-icon" id="weather-icon">☁️</span>
+                <span id="desc-text">--</span>
+            </div>
+            
+            <div class="extra-stats">
+                <div class="stat">
+                    Humidity
+                    <span id="humidity-val">--%</span>
+                </div>
+                <div class="stat">
+                    Wind
+                    <span id="wind-val">-- km/h</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Background Stars ---
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            for (let i = 0; i < 50; i++) {
+                let star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // --- Weather App Logic ---
+        const searchBtn = document.getElementById('search-btn');
+        const cityInput = document.getElementById('city-input');
+        const weatherInfo = document.getElementById('weather-info');
+        const systemMsg = document.getElementById('system-msg');
+        const weatherCard = document.getElementById('weather-card');
+
+        // Allow pressing "Enter" to search
+        cityInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') fetchWeatherData();
+        });
+
+        searchBtn.addEventListener('click', fetchWeatherData);
+
+        async function fetchWeatherData() {
+            const city = cityInput.value.trim();
+            if (!city) return;
+
+            // Show loading state
+            systemMsg.className = "message loading";
+            systemMsg.innerText = "Connecting to satellites...";
+            weatherInfo.style.display = "none";
+
+            try {
+                // Step 1: Geocoding (Convert City Name to Coordinates)
+                const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`;
+                const geoResponse = await fetch(geoUrl);
+                const geoData = await geoResponse.json();
+
+                if (!geoData.results || geoData.results.length === 0) {
+                    throw new Error("City not found. Try a different name.");
+                }
+
+                const location = geoData.results[0];
+
+                // Step 2: Fetch Weather Data using Coordinates
+                const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`;
+                const weatherResponse = await fetch(weatherUrl);
+                const weatherData = await weatherResponse.json();
+                
+                const current = weatherData.current;
+
+                // Step 3: Update the UI Elements
+                document.getElementById('display-city').innerText = `${location.name}, ${location.country}`;
+                document.getElementById('temp-val').innerText = Math.round(current.temperature_2m);
+                document.getElementById('humidity-val').innerText = `${current.relative_humidity_2m}%`;
+                document.getElementById('wind-val').innerText = `${current.wind_speed_10m} km/h`;
+
+                // Translate the Weather Code (WMO standards) into UI themes
+                applyWeatherTheme(current.weather_code);
+
+                // Reveal the dashboard
+                systemMsg.innerText = "";
+                weatherInfo.style.display = "flex";
+
+            } catch (error) {
+                // Handle Errors
+                systemMsg.className = "message";
+                systemMsg.innerText = error.message;
+            }
+        }
+
+        // Translates numerical weather codes into text, icons, and card colors
+        function applyWeatherTheme(code) {
+            const iconEl = document.getElementById('weather-icon');
+            const descEl = document.getElementById('desc-text');
+
+            let shadowColor = "rgba(0, 0, 0, 0.5)"; // Default
+            
+            // WMO Weather interpretation codes
+            if (code === 0) {
+                iconEl.innerText = "☀️";
+                descEl.innerText = "Clear Sky";
+                shadowColor = "rgba(255, 165, 0, 0.4)"; // Orange/Yellow glow
+            } else if (code >= 1 && code <= 3) {
+                iconEl.innerText = "☁️";
+                descEl.innerText = "Partly Cloudy";
+                shadowColor = "rgba(200, 200, 200, 0.3)"; // Silver glow
+            } else if (code >= 51 && code <= 67 || code >= 80 && code <= 82) {
+                iconEl.innerText = "🌧️";
+                descEl.innerText = "Raining";
+                shadowColor = "rgba(0, 191, 255, 0.4)"; // Blue glow
+            } else if (code >= 71 && code <= 77 || code >= 85 && code <= 86) {
+                iconEl.innerText = "❄️";
+                descEl.innerText = "Snowing";
+                shadowColor = "rgba(255, 255, 255, 0.5)"; // White glow
+            } else if (code >= 95 && code <= 99) {
+                iconEl.innerText = "⚡";
+                descEl.innerText = "Thunderstorm";
+                shadowColor = "rgba(138, 43, 226, 0.5)"; // Purple glow
+            } else {
+                iconEl.innerText = "🌫️";
+                descEl.innerText = "Fog/Mist";
+                shadowColor = "rgba(169, 169, 169, 0.4)"; // Grey glow
+            }
+
+            // Apply dynamic theme change to the glass card
+            weatherCard.style.boxShadow = `0 8px 32px ${shadowColor}`;
+            weatherCard.style.borderColor = shadowColor;
+        }
+    </script>
+</body>
+</html>

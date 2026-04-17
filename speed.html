@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Typing Tester</title>
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* --- Flowing Wave Background --- */
+        #dynamic-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            background: linear-gradient(-45deg, #0C0420, #034d3b);
+            background-size: 400% 400%;
+            animation: gradientWave 10s ease infinite; 
+        }
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- Parallax Stars --- */
+        .stars-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; 
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.6);
+            animation: twinkle 3s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* --- Glass Wrapper --- */
+        .glass-card {
+            position: relative;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 650px;
+            padding: 40px;
+            border-radius: 16px; 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .glass-card h2 {
+            margin: 0;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-size: 2.2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            color: #0e9f7b;
+        }
+
+        /* --- Stats Panel --- */
+        .stats-panel {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        .stats-panel span {
+            font-weight: bold;
+            color: #0e9f7b;
+            text-shadow: 0 0 8px rgba(14, 159, 123, 0.4);
+        }
+
+        /* --- Text Display Area --- */
+        .text-display {
+            background-color: rgba(0, 0, 0, 0.25);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #888; /* Default unfocused text color */
+            min-height: 100px;
+            user-select: none;
+        }
+
+        /* Real-time highlighting classes */
+        .char {
+            transition: color 0.1s;
+        }
+        .char.correct {
+            color: #0e9f7b;
+            text-shadow: 0 0 5px rgba(14, 159, 123, 0.3);
+        }
+        .char.incorrect {
+            color: #ff4757;
+            text-shadow: 0 0 5px rgba(255, 71, 87, 0.4);
+            text-decoration: underline;
+        }
+
+        /* --- Inputs & Buttons --- */
+        input {
+            width: 100%;
+            padding: 18px 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 1.2rem;
+            color: white;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        input:focus {
+            border-color: #0e9f7b;
+            box-shadow: 0 0 15px rgba(14, 159, 123, 0.3);
+        }
+        input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-theme {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #0e9f7b;
+            color: white;
+            box-shadow: 0 4px 15px rgba(14, 159, 123, 0.3);
+        }
+        .btn-theme:hover {
+            background-color: #085e37;
+            box-shadow: 0 6px 20px rgba(14, 159, 123, 0.5);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="dynamic-gradient"></div>
+    <div class="stars-layer" id="stars-container"></div>
+
+    <div class="glass-card">
+        <h2>TYPING SPEED TESTER</h2>
+        
+        <div class="stats-panel">
+            <div>Time: <span id="time">60</span>s</div>
+            <div>WPM: <span id="wpm">0</span></div>
+            <div>Acc: <span id="accuracy">100</span>%</div>
+        </div>
+
+        <div class="text-display" id="quote-display">
+            Click "Start Engine" to begin the test. Your text will appear here.
+        </div>
+
+        <input type="text" id="type-input" placeholder="Awaiting input..." disabled autocomplete="off" spellcheck="false">
+        
+        <button class="btn-theme" id="start-btn">Start Engine</button>
+    </div>
+
+    <script>
+        // --- 1. Background Stars ---
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            for (let i = 0; i < 50; i++) {
+                let star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // --- 2. Typing Logic Variables ---
+        const quotes = [
+            "The quick brown fox jumps over the lazy dog.",
+            "Programming isn't about what you know, it's about what you can figure out.",
+            "To understand recursion, one must first understand recursion.",
+            "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+            "First, solve the problem. Then, write the code.",
+            "JavaScript is the duct tape of the internet."
+        ];
+
+        let timeLeft = 60;
+        let timeElapsed = 0;
+        let timer = null;
+        let isTyping = false;
+        let totalTypedChars = 0;
+        let correctChars = 0;
+
+        // DOM Elements
+        const timeDisplay = document.getElementById('time');
+        const wpmDisplay = document.getElementById('wpm');
+        const accDisplay = document.getElementById('accuracy');
+        const quoteDisplay = document.getElementById('quote-display');
+        const typeInput = document.getElementById('type-input');
+        const startBtn = document.getElementById('start-btn');
+
+        // --- 3. Game Functions ---
+
+        // Get a random sentence and format it into <span> tags
+        function renderNewQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const quote = quotes[randomIndex];
+            
+            quoteDisplay.innerHTML = ''; // Clear old text
+            
+            // Break text down to individual characters for real-time highlighting
+            quote.split('').forEach(char => {
+                const charSpan = document.createElement('span');
+                charSpan.innerText = char;
+                charSpan.classList.add('char');
+                quoteDisplay.appendChild(charSpan);
+            });
+            
+            typeInput.value = null; // Clear input field
+        }
+
+        function startGame() {
+            // Reset variables
+            timeLeft = 60;
+            timeElapsed = 0;
+            totalTypedChars = 0;
+            correctChars = 0;
+            isTyping = true;
+            
+            timeDisplay.innerText = timeLeft;
+            wpmDisplay.innerText = 0;
+            accDisplay.innerText = 100;
+            
+            startBtn.innerText = "Restart Engine";
+            typeInput.disabled = false;
+            typeInput.focus();
+            
+            renderNewQuote();
+            
+            // Handle Timer
+            clearInterval(timer);
+            timer = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                timeElapsed++;
+                timeDisplay.innerText = timeLeft;
+                calculateStats();
+            } else {
+                endGame();
+            }
+        }
+
+        function calculateStats() {
+            // Calculate Accuracy
+            let acc = 100;
+            if (totalTypedChars > 0) {
+                acc = Math.round((correctChars / totalTypedChars) * 100);
+            }
+            accDisplay.innerText = acc;
+
+            // Calculate WPM (Standard assumes 5 chars = 1 word)
+            let wpm = 0;
+            if (timeElapsed > 0) {
+                wpm = Math.round(((correctChars / 5) / timeElapsed) * 60);
+            }
+            wpmDisplay.innerText = wpm;
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            isTyping = false;
+            typeInput.disabled = true;
+            typeInput.value = "";
+            quoteDisplay.innerHTML = "Time's up! <br><br> Your final WPM is <strong style='color:#0e9f7b'>" + wpmDisplay.innerText + "</strong> with <strong style='color:#0e9f7b'>" + accDisplay.innerText + "%</strong> accuracy.";
+            startBtn.innerText = "Try Again";
+        }
+
+        // --- 4. Event Listeners ---
+        startBtn.addEventListener('click', startGame);
+
+        typeInput.addEventListener('input', () => {
+            if (!isTyping) return;
+
+            const arrayQuote = quoteDisplay.querySelectorAll('.char');
+            const arrayValue = typeInput.value.split('');
+            
+            let allCorrect = true;
+            let currentCorrectChars = 0;
+
+            arrayQuote.forEach((charSpan, index) => {
+                const character = arrayValue[index];
+                
+                if (character == null) {
+                    // Not typed yet
+                    charSpan.classList.remove('correct');
+                    charSpan.classList.remove('incorrect');
+                    allCorrect = false;
+                } else if (character === charSpan.innerText) {
+                    // Typed correctly
+                    charSpan.classList.add('correct');
+                    charSpan.classList.remove('incorrect');
+                    currentCorrectChars++;
+                } else {
+                    // Typed incorrectly
+                    charSpan.classList.remove('correct');
+                    charSpan.classList.add('incorrect');
+                    allCorrect = false;
+                }
+            });
+
+            // Update stats logic
+            totalTypedChars++;
+            correctChars = currentCorrectChars; // We keep total correct up to date for WPM
+            
+            // If they successfully finish the sentence, load a new one seamlessly
+            if (allCorrect && arrayValue.length === arrayQuote.length) {
+                // Add current correct to a total pool if you want cumulative across sentences
+                renderNewQuote();
+            }
+        });
+    </script>
+</body>
+</html>

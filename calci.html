@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Calculator</title>
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white; display: flex; justify-content: center; align-items: center; overflow: hidden;
+        }
+
+        #dynamic-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background: linear-gradient(-45deg, #0C0420, #034d3b); background-size: 400% 400%; animation: gradientWave 10s ease infinite; }
+        @keyframes gradientWave { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .stars-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+        .star { position: absolute; border-radius: 50%; background-color: rgba(255, 255, 255, 0.8); box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.6); animation: twinkle 3s infinite alternate; }
+        @keyframes twinkle { 0% { opacity: 0.3; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
+
+        /* --- Glass Calculator UI --- */
+        .calculator {
+            position: relative;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 320px;
+            padding: 25px;
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- Display --- */
+        .display {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: right;
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.5);
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+        .prev-operand {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            min-height: 1.2rem;
+        }
+        .curr-operand {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 300;
+            min-height: 3rem;
+        }
+
+        /* --- Keypad Grid --- */
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        /* --- Buttons --- */
+        button {
+            border: none;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.5rem;
+            padding: 15px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(5px);
+        }
+
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        button:active {
+            transform: scale(0.9); /* The physical "press" effect */
+        }
+
+        /* Specialty Keys */
+        .span-two { grid-column: span 2; }
+        
+        .operator {
+            color: #0e9f7b;
+            background-color: rgba(14, 159, 123, 0.1);
+            border-color: rgba(14, 159, 123, 0.3);
+        }
+        .operator:hover {
+            background-color: rgba(14, 159, 123, 0.3);
+            box-shadow: 0 0 15px rgba(14, 159, 123, 0.4);
+        }
+
+        .equals {
+            background-color: #0e9f7b;
+            color: white;
+            border-color: #0e9f7b;
+            box-shadow: 0 4px 15px rgba(14, 159, 123, 0.3);
+        }
+        .equals:hover {
+            background-color: #085e37;
+            box-shadow: 0 6px 20px rgba(14, 159, 123, 0.5);
+        }
+        
+        .clear { color: #ff4757; }
+    </style>
+</head>
+<body>
+
+    <div id="dynamic-gradient"></div>
+    <div class="stars-layer" id="stars-container"></div>
+
+    <div class="calculator">
+        <div class="display">
+            <div class="prev-operand" id="prev-op"></div>
+            <div class="curr-operand" id="curr-op">0</div>
+        </div>
+        
+        <div class="keypad">
+            <button class="span-two clear" onclick="clearDisplay()">AC</button>
+            <button class="operator" onclick="deleteNumber()">DEL</button>
+            <button class="operator" onclick="chooseOperation('/')">÷</button>
+            
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button class="operator" onclick="chooseOperation('*')">×</button>
+            
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button class="operator" onclick="chooseOperation('-')">-</button>
+            
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button class="operator" onclick="chooseOperation('+')">+</button>
+            
+            <button onclick="appendNumber('0')">0</button>
+            <button onclick="appendNumber('.')">.</button>
+            <button class="span-two equals" onclick="compute()">=</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Background Stars ---
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            for (let i = 0; i < 50; i++) {
+                let star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // --- Calculator Logic ---
+        const prevOpTextElement = document.getElementById('prev-op');
+        const currOpTextElement = document.getElementById('curr-op');
+
+        let currentOperand = '';
+        let previousOperand = '';
+        let operation = undefined;
+
+        function updateDisplay() {
+            currOpTextElement.innerText = currentOperand || '0';
+            if (operation != null) {
+                // Change internal operator logic to standard math symbols for display
+                let symbol = operation;
+                if(symbol === '*') symbol = '×';
+                if(symbol === '/') symbol = '÷';
+                prevOpTextElement.innerText = `${previousOperand} ${symbol}`;
+            } else {
+                prevOpTextElement.innerText = '';
+            }
+        }
+
+        function appendNumber(number) {
+            // Prevent multiple decimals
+            if (number === '.' && currentOperand.includes('.')) return;
+            // Prevent leading zeros issues
+            if (currentOperand === '0' && number !== '.') currentOperand = '';
+            
+            currentOperand = currentOperand.toString() + number.toString();
+            updateDisplay();
+        }
+
+        function chooseOperation(op) {
+            if (currentOperand === '') return;
+            if (previousOperand !== '') {
+                compute();
+            }
+            operation = op;
+            previousOperand = currentOperand;
+            currentOperand = '';
+            updateDisplay();
+        }
+
+        function compute() {
+            let computation;
+            const prev = parseFloat(previousOperand);
+            const current = parseFloat(currentOperand);
+            if (isNaN(prev) || isNaN(current)) return;
+            
+            switch (operation) {
+                case '+': computation = prev + current; break;
+                case '-': computation = prev - current; break;
+                case '*': computation = prev * current; break;
+                case '/': computation = prev / current; break;
+                default: return;
+            }
+            
+            // Fix long decimal weirdness in JS (like 0.1 + 0.2)
+            currentOperand = Math.round(computation * 100000000) / 100000000;
+            operation = undefined;
+            previousOperand = '';
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            currentOperand = '';
+            previousOperand = '';
+            operation = undefined;
+            updateDisplay();
+        }
+
+        function deleteNumber() {
+            currentOperand = currentOperand.toString().slice(0, -1);
+            updateDisplay();
+        }
+
+        // --- Keyboard Support ---
+        window.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9' || e.key === '.') {
+                appendNumber(e.key);
+            }
+            if (e.key === '=' || e.key === 'Enter') {
+                compute();
+            }
+            if (e.key === 'Backspace') {
+                deleteNumber();
+            }
+            if (e.key === 'Escape') {
+                clearDisplay();
+            }
+            if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+                chooseOperation(e.key);
+            }
+        });
+    </script>
+</body>
+</html>

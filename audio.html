@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Lo-Fi Player</title>
+    <style>
+        /* --- Base Setup --- */
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            background-color: #0C0420; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white; display: flex; justify-content: center; align-items: center; overflow: hidden;
+        }
+
+        #dynamic-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background: linear-gradient(-45deg, #0C0420, #034d3b); background-size: 400% 400%; animation: gradientWave 10s ease infinite; }
+        @keyframes gradientWave { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .stars-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+        .star { position: absolute; border-radius: 50%; background-color: rgba(255, 255, 255, 0.8); box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.6); animation: twinkle 3s infinite alternate; }
+        @keyframes twinkle { 0% { opacity: 0.3; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
+
+        /* --- Audio Player Glass UI --- */
+        .player-card {
+            position: relative;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 350px;
+            padding: 40px;
+            border-radius: 24px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- The Vinyl Record --- */
+        .vinyl-container {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 25px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .vinyl {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            /* Pure CSS Grooved Record */
+            background: repeating-radial-gradient(
+                #111,
+                #111 4px,
+                #1a1a1a 5px,
+                #1a1a1a 6px
+            );
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0,0,0,1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        /* The Record Label (Center) */
+        .vinyl::after {
+            content: '';
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0e9f7b, #034d3b);
+            border-radius: 50%;
+            border: 3px solid #0C0420;
+        }
+
+        /* The Center Hole */
+        .vinyl::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #0C0420;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        /* Animation Class toggled via JS */
+        .spin {
+            animation: spinVinyl 3s linear infinite;
+        }
+
+        @keyframes spinVinyl {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Track Info --- */
+        .track-info {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .track-info h2 {
+            margin: 0; font-size: 1.6rem; font-weight: 500; letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .track-info p {
+            margin: 5px 0 0 0; color: #0e9f7b; font-size: 1rem; letter-spacing: 2px; text-transform: uppercase;
+        }
+
+        /* --- Controls Container --- */
+        .controls {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* --- Custom Range Sliders --- */
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #b3b3b3;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type="range"]:focus { outline: none; }
+        
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px; width: 16px;
+            border-radius: 50%;
+            background: #0e9f7b;
+            margin-top: -5px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(14, 159, 123, 0.6);
+            transition: transform 0.1s;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* --- Play Button --- */
+        .play-btn {
+            background: #0e9f7b;
+            color: white;
+            border: none;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            display: flex; justify-content: center; align-items: center;
+            margin: 10px auto 0 auto;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(14, 159, 123, 0.4);
+            transition: all 0.3s ease;
+        }
+        .play-btn:hover {
+            background: #085e37;
+            box-shadow: 0 6px 20px rgba(14, 159, 123, 0.6);
+            transform: translateY(-3px);
+        }
+        .play-btn:active { transform: scale(0.95); }
+
+    </style>
+</head>
+<body>
+
+    <div id="dynamic-gradient"></div>
+    <div class="stars-layer" id="stars-container"></div>
+
+    <audio id="audio-track" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+    <div class="player-card">
+        
+        <div class="vinyl-container">
+            <div class="vinyl" id="vinyl-record"></div>
+        </div>
+
+        <div class="track-info">
+            <h2>Midnight Drive</h2>
+            <p>Lo-Fi Beats</p>
+        </div>
+
+        <div class="controls">
+            <div class="slider-group">
+                <span id="current-time">0:00</span>
+                <input type="range" id="progress-bar" value="0" step="1">
+                <span id="total-time">0:00</span>
+            </div>
+
+            <div class="slider-group" style="justify-content: center; margin-top: 5px;">
+                <span>🔉</span>
+                <input type="range" id="volume-slider" min="0" max="1" value="0.5" step="0.01" style="width: 50%;">
+                <span>🔊</span>
+            </div>
+
+            <button class="play-btn" id="play-btn">▶</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Background Stars ---
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            for (let i = 0; i < 50; i++) {
+                let star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // --- Audio Player Logic ---
+        const audio = document.getElementById('audio-track');
+        const playBtn = document.getElementById('play-btn');
+        const vinyl = document.getElementById('vinyl-record');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalTimeEl = document.getElementById('total-time');
+        const volumeSlider = document.getElementById('volume-slider');
+
+        // Set initial volume
+        audio.volume = volumeSlider.value;
+
+        // 1. Format time from seconds to M:SS
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // 2. Play / Pause Logic
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playBtn.innerText = "⏸"; // Change to pause icon
+                vinyl.classList.add('spin'); // Start spinning
+            } else {
+                audio.pause();
+                playBtn.innerText = "▶"; // Change to play icon
+                vinyl.classList.remove('spin'); // Stop spinning
+            }
+        });
+
+        // 3. Load Metadata (Get the length of the song)
+        audio.addEventListener('loadedmetadata', () => {
+            progressBar.max = audio.duration;
+            totalTimeEl.innerText = formatTime(audio.duration);
+        });
+
+        // 4. Update Progress Bar as song plays
+        audio.addEventListener('timeupdate', () => {
+            progressBar.value = audio.currentTime;
+            currentTimeEl.innerText = formatTime(audio.currentTime);
+        });
+
+        // 5. Seek (Clicking on the progress bar)
+        progressBar.addEventListener('input', () => {
+            audio.currentTime = progressBar.value;
+        });
+
+        // 6. Volume Control
+        volumeSlider.addEventListener('input', () => {
+            audio.volume = volumeSlider.value;
+        });
+
+        // 7. Reset when song ends
+        audio.addEventListener('ended', () => {
+            playBtn.innerText = "▶";
+            vinyl.classList.remove('spin');
+            progressBar.value = 0;
+            currentTimeEl.innerText = "0:00";
+        });
+    </script>
+</body>
+</html>
