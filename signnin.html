@@ -260,6 +260,67 @@
         </div>
 
     </div>
+    <script>
+        // --- 1. Generate Parallax Stars ---
+        function createStars() {
+            const starLayer = document.querySelector('.stars-layer');
+            for (let i = 0; i < 50; i++) {
+                let star = document.createElement('div');
+                star.className = 'star';
+                // Randomize size, position, and twinkle delay
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starLayer.appendChild(star);
+            }
+        }
+        createStars();
+
+        // --- 2. Form Validation & Submission ---
+        const signinForm = document.querySelector('form');
+        const submitBtn = document.querySelector('.btn-theme');
+
+        signinForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevents the page from refreshing immediately
+
+            // Grab the values from the inputs
+            const username = signinForm.querySelector('input[type="text"]').value.trim();
+            const password = signinForm.querySelector('input[type="password"]').value.trim();
+            const rememberMe = document.getElementById('remember').checked;
+
+            // Simple Validation Checks
+            if (username === "" || password === "") {
+                alert("❌ Please fill in both your username and password.");
+                return;
+            }
+
+            if (password.length < 4) {
+                alert("❌ Password is too short. Please try again.");
+                return;
+            }
+
+            // Visual UI Feedback: Change button state to "Loading"
+            submitBtn.innerText = "Authenticating...";
+            submitBtn.style.backgroundColor = "#555";
+            submitBtn.disabled = true;
+
+            // Simulate a slight network delay before "logging in"
+            setTimeout(() => {
+                alert(`✅ Welcome back, ${username}!\nRemember Me: ${rememberMe}\n\nRedirecting to home page...`);
+                
+                // Here is where you would put your redirect:
+                window.location.href = "index.html"; 
+
+                // Reset the form for demo purposes
+                submitBtn.innerText = "Sign In";
+                submitBtn.style.backgroundColor = "#0e9f7b";
+                submitBtn.disabled = false;
+                signinForm.reset();
+            }, 1500); // 1.5 second delay
+        });
+    </script>
 
 </body>
 </html>
